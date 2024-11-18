@@ -1,0 +1,4 @@
+# Ignorer node_modules og byggefiler
+node_modules/
+.next/
+out/

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import Header from '@/components/Header/Header';
+import ApolloWrapper from '@/components/Apolloprovider/ApolloWrapper';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -29,14 +30,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header
-          title="Reise-Planlegger"
-          links={[
-            { href: '/', label: 'Hjem' },
-            { href: '/about', label: 'Om' },
-          ]}
-        />
-        <main>{children}</main>
+        <ApolloWrapper>
+          <Header
+            title="Reise-Planlegger"
+            links={[
+              { href: '/', label: 'Hjem' },
+              { href: '/about', label: 'Om' },
+            ]}
+          />
+          <main>{children}</main>
+        </ApolloWrapper>
       </body>
     </html>
   );

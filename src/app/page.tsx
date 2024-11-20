@@ -1,8 +1,9 @@
+import SearchTripsComponent from '@/components/SearchTrips/SearchTripsComponent';
+
 export default function Home() {
   return (
     <div>
-      <main></main>
-      <footer></footer>
+      <SearchTripsComponent />
     </div>
   );
 }

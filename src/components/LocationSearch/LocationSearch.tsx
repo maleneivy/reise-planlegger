@@ -12,10 +12,14 @@ export default function LocationSearch({
 }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<any[]>([]);
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleSearch = async (text: string) => {
     setQuery(text);
-    if (text.length < 3) return;
+    if (text.length < 3) {
+      setResults([]);
+      return;
+    }
 
     const response = await fetch(
       `https://api.entur.io/geocoder/v1/autocomplete?text=${encodeURIComponent(
@@ -46,24 +50,34 @@ export default function LocationSearch({
   };
 
   return (
-    <div className="flex gap-3 items-center">
-      <label className="w-6">{label}</label>
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => handleSearch(e.target.value)}
-        placeholder={`Skriv inn ${label.toLowerCase()}`}
-        className="p-2 text-black rounded m-2"
-      />
-      {results.length > 0 && (
-        <ul>
-          {results.map((result) => (
-            <li key={result.properties.id} onClick={() => handleSelect(result)}>
-              {result.properties.label}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <>
+      <div className="flex gap-3 items-center">
+        <label className="w-6">{label}</label>
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => handleSearch(e.target.value)}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+          placeholder={`Skriv inn ${label.toLowerCase()}`}
+          className="p-2 text-black rounded m-2 shadow-md"
+        />
+      </div>
+      <div>
+        {isFocused && results.length > 0 && (
+          <ul className="p-2 shadow-md">
+            {results.map((result) => (
+              <li
+                key={result.properties.id}
+                className="hover:bg-green-100 hover:cursor-pointer py-1"
+                onClick={() => handleSelect(result)}
+              >
+                {result.properties.label}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </>
   );
 }

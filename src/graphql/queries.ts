@@ -20,9 +20,21 @@ export const SEARCH_TRIPS = gql`
         legs {
           mode
           distance
+          expectedStartTime
+          expectedEndTime
           line {
             id
             publicCode
+          }
+          fromPlace {
+            name
+            latitude
+            longitude
+          }
+          toPlace {
+            name
+            latitude
+            longitude
           }
         }
       }

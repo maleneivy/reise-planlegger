@@ -19,3 +19,7 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.icon-base {
+  @apply w-4 h-4 fill-current;
+}

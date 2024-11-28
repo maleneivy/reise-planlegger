@@ -4,6 +4,7 @@ import { useState } from 'react';
 import LocationSearch from '../LocationSearch/LocationSearch';
 import { useLazyQuery } from '@apollo/client';
 import { SEARCH_TRIPS } from '@/graphql/queries';
+import { BusIcon, PlaneIcon, TrainIcon, TramIcon, WalkingIcon } from '@/icons';
 
 export default function SearchTripsComponent() {
   const [from, setFrom] = useState<{
@@ -67,8 +68,35 @@ export default function SearchTripsComponent() {
                     key={legIndex}
                     className="border rounded p-2 bg-slate-200 dark:bg-blue-950 mb-2"
                   >
-                    <strong>Modus:</strong> {leg.mode}
-                    <br />
+                    <div
+                      className={`flex items-center gap-2 w-fit rounded p-2 text-white font-bold ${
+                        leg.mode === 'foot'
+                          ? 'bg-walkGreen'
+                          : leg.mode === 'bus'
+                            ? 'bg-busColor'
+                            : leg.mode === 'tram'
+                              ? 'bg-tramColor'
+                              : leg.mode === 'metro'
+                                ? 'bg-metroColor'
+                                : leg.mode === 'air'
+                                  ? 'bg-airPlaneColor'
+                                  : 'bg-gray-400'
+                      }`}
+                    >
+                      {leg.mode === 'foot' && <WalkingIcon />}
+                      {leg.mode === 'bus' && <BusIcon />}
+                      {leg.mode === 'tram' && <TramIcon />}
+                      {leg.mode === 'metro' && <TrainIcon />}
+                      {leg.mode === 'air' && <PlaneIcon />}
+                      <p className="pr-2">
+                        {Math.ceil(
+                          (new Date(leg.expectedEndTime).getTime() -
+                            new Date(leg.expectedStartTime).getTime()) /
+                            60000
+                        )}{' '}
+                        min
+                      </p>
+                    </div>
                     <strong>Avstand:</strong> {leg.distance} meter
                     {leg.line && (
                       <>
